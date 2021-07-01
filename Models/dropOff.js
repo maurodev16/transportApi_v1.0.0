@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const dropOffLocalizationSchema = new mongoose.Schema({  
+const mysql = require("mysql");
+const dropOffLocalizationSchema = new mysql.Schema({  
     latitude:  {
         type : String,
     },   
@@ -7,4 +7,4 @@ const dropOffLocalizationSchema = new mongoose.Schema({
         type : String,
     },     
 });
-module.exports = mongoose.model("DropOffLocalization", dropOffLocalizationSchema);
+module.exports = mysql.model("DropOffLocalization", dropOffLocalizationSchema);

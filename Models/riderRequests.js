@@ -1,8 +1,8 @@
-const mongoose = require("mongoose");
-const rideRequestsSchema = new mongoose.Schema(
+const mysql = require("mysql");
+const rideRequestsSchema = new mysql.Schema(
   {
     rideRequest_Id: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: mysql.Schema.Types.ObjectId,
       required: "Ride Request Id is required!",
     },
   },
@@ -10,4 +10,4 @@ const rideRequestsSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
-module.exports = mongoose.model("RiderRequests", rideRequestsSchema);
+module.exports = mysql.model("RiderRequests", rideRequestsSchema);

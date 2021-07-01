@@ -2,7 +2,7 @@
   "name": "transportapi",
   "version": "1.0.0",
   "description": "Transport API",
-  "main": "server.js",
+  "main": "app.js",
   "scripts": {
     "start": "cross-env NODE_ENV=production node index",
     "dev": "cross-env NODE_ENV=development nodemon index"
@@ -26,6 +26,7 @@
     "mongodb": "^3.6.4",
     "mongoose": "^5.12.0",
     "morgan": "^1.10.0",
+    "mysql": "^2.18.1",
     "npm": "^7.6.3",
     "passport": "^0.4.1",
     "passport-google-oauth20": "^2.0.0",

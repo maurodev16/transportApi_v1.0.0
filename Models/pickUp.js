@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const pickUpLocalizationSchema = new mongoose.Schema({
+const mysql = require("mysql");
+const pickUpLocalizationSchema = new mysql.Schema({
     latitude:  {
         type : String,
     },   
@@ -7,4 +7,4 @@ const pickUpLocalizationSchema = new mongoose.Schema({
         type : String,
     },     
 });
-module.exports = mongoose.model("PickUpLocalization",pickUpLocalizationSchema);
+module.exports = mysql.model("PickUpLocalization",pickUpLocalizationSchema);

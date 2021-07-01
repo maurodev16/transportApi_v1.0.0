@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+const mysql = require("mysql");
+const Schema = mysql.Schema;
 
 const userSchema = new Schema({
   firstname: {
@@ -41,4 +41,4 @@ accessToken:{type:String},
 });
 
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mysql.model("User", userSchema);

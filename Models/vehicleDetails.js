@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const vehicleDetailsSchema = new mongoose.Schema(
+const mysql = require("mysql");
+const vehicleDetailsSchema = new mysql.Schema(
   {
     vehicleName: {
       type: String,
@@ -26,4 +26,4 @@ const vehicleDetailsSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
-module.exports = mongoose.model("VehicleDetails", vehicleDetailsSchema);
+module.exports = mysql.model("VehicleDetails", vehicleDetailsSchema);

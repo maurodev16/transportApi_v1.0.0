@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const RiderSchema = new mongoose.Schema({
+const mysql = require("mysql");
+const RiderSchema = new mysql.Schema({
   firstname: {
     type: String,
     require: true,
@@ -31,4 +31,4 @@ const RiderSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
- module.exports =  mongoose.model("Rider", RiderSchema);;
+ module.exports =  mysql.model("Rider", RiderSchema);;

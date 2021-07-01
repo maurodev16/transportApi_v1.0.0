@@ -1,8 +1,8 @@
-const mongoose = require("mongoose");
-const driverSchema = new mongoose.Schema(
+const mysql = require("mysql");
+const driverSchema = new mysql.Schema(
   {
     driver_Id: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: mysql.Schema.Types.ObjectId,
       required: "Driver Id is required!",
     },
     firstname: {
@@ -26,7 +26,7 @@ const driverSchema = new mongoose.Schema(
       required: "Password is required!",
     },
     vehicle: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: mysql.Schema.Types.ObjectId,
       required: "Vehicle is required!",
       ref: "VehicleDetails", ///Referencia o Model "VehicleDetailsSchema"
     },
@@ -35,4 +35,4 @@ const driverSchema = new mongoose.Schema(
   
 );
 
-module.exports = mongoose.model("Driver", driverSchema);
+module.exports = mysql.model("Driver", driverSchema);
