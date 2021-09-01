@@ -1,0 +1,1 @@
+DELETE http://localhost:3333/objeto HTTP/1.1
