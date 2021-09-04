@@ -1,8 +1,13 @@
-import { Column, Entity, PrimaryGeneratedColumn, Timestamp } from "typeorm";
-
+import { 
+    BaseEntity,  
+    Column, 
+    Entity, 
+    PrimaryGeneratedColumn, 
+    Timestamp, 
+} from "typeorm";
 
 @Entity('auth')
-export class AuthEntity {
+export class AuthEntity extends BaseEntity {
     // ContentEntity ja adiciona o Id, CreateAt e UdateAt
     @PrimaryGeneratedColumn('increment')
     id: number;
@@ -22,6 +27,7 @@ export class AuthEntity {
     @Column({ type: 'varchar', length: 150, nullable: true, unique: true })
     email: string;
 
+    
     @Column({ name: 'password', type: 'varchar', length: 60, nullable: true })
     password: string;
 
@@ -34,10 +40,10 @@ export class AuthEntity {
     @Column({ type: 'varchar', length: 150, nullable: true })
     city: string;
 
-    @Column({ type: 'timestamp', default:Date.now})
-    createdAt: Timestamp;
+    @Column({type:'timestamp', default: () => "now()"})
+    createdAt: string;
 
-    @Column({ type: 'timestamp', default:Date.now})
-    updatedAt: Timestamp;
+    @Column({type:'timestamp'})
+    updatedAt: string;
 
 }

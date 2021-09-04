@@ -20,7 +20,7 @@ export class DriverEntity  {
     @Column({ type: 'double', nullable: false })
     startPrice: Double;
 
-    @Column({ type: 'number',})
+    @Column({ type: 'integer',})
     trips: number;
     
     @Column({ type: 'double' })

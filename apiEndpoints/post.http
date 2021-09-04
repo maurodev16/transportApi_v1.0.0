@@ -2,8 +2,15 @@ POST http://localhost:3333/auth/register/ HTTP/1.1
 Content-Type: application/json
 
 {
-    "firstname":"Mauro Sergio",
-    "lastname":"Rodrigues da Silva",
-    "password":"1234567"
+    "firstname":"Jose",
+    "lastname":"Meireles",
+    "password":"1234567",
+    "email":"jose@gmail.com",
+    "phone":"778855555",
+    "cel": "01788778855",
+    "postCode": "45145",
+    "ort": "Hostelstr",
+    "city": "Bochum"
+
 }
 

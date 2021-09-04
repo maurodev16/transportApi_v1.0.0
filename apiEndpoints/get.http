@@ -1,7 +1,7 @@
 GET http://localhost:3333/auth/register HTTP/1.1
 ###
 
-GET http://localhost:3333/objeto HTTP/1.1
+GET http://localhost:3333/auth/4 HTTP/1.1
 ###
 
 GET http://localhost:3333/objeto HTTP/1.1

@@ -1,6 +1,6 @@
-import { Body, Controller, Post } from '@nestjs/common';
-import { AuthEntity } from 'src/db/entities/AuthEntity';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
+import { CreateUserDto } from './authDto/Auth.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -8,10 +8,14 @@ export class AuthController {
     @Post('register')
     async registerUser(
         @Body()
-        authData: Partial<AuthEntity>,
-    ): Promise<Partial<AuthEntity>> {
-        const newUser = await this.authService.registerUser(authData);
+        createUserDto: CreateUserDto,
+    ): Promise<CreateUserDto> {
+        const newUser = await this.authService.registerUser(createUserDto);
         return newUser;
+    }
 
+    @Get(':id')
+    show(@Param('id')id:string){
+        return this.authService.showById(+id);
     }
 }
