@@ -1,16 +1,32 @@
-POST http://localhost:3333/auth/register/ HTTP/1.1
+
+# POST http://localhost:3333/driver/register/ HTTP/1.1
+# Content-Type: application/json
+
+# {
+#     "driver_Id": 123456789,
+#     "hauseNumber": "3",
+#     "language": "portuge",
+#     "startPrice": 25.00,
+#     "trips": 122,
+#     "doHelp": true,
+#     "driverAvatarUrl": "urlddjddd",
+#     "carImgUrl1": "urlddjddd",
+#     "carImgUrl2": "urlddjddd",
+#     "carImgUrl3": "urlddjddd",
+#     "carImgUrl4": "urlddjddd",
+#     "carImgUrl5": "urlddjddd",
+#     "docUrl1": "urlddjddd",
+#     "docUrl2": "urlddjddd",
+#     "docUrl3": "urlddjddd",
+#     "docUrl4": "urlddjddd"
+    
+# }
+
+
+POST http://localhost:3333/auth/login/ HTTP/1.1
 Content-Type: application/json
 
 {
-    "firstname":"Jose",
-    "lastname":"Meireles",
-    "password":"1234567",
-    "email":"jose@gmail.com",
-    "phone":"778855555",
-    "cel": "01788778855",
-    "postCode": "45145",
-    "ort": "Hostelstr",
-    "city": "Bochum"
-
+   "email":"mauro.developer.br@gmail.com",
+   "password":"1234567"
 }
-
