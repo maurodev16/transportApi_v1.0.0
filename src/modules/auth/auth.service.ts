@@ -1,44 +1,21 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { AuthEntity } from 'src/db/entities/auth.entity';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { UserEntity } from 'src/db/entities/user.entity';
 import { EncryptUtil } from 'src/shared/utils/encrypt.util';
-import { Repository } from 'typeorm';
-import { CreateUserDto } from './authDto/Auth.dto';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class AuthService {
-    constructor(
-        @InjectRepository(AuthEntity)
-        private authRepository: Repository<AuthEntity>
-    ) { }
 
-    async getByEmail(createUserDto: CreateUserDto): Promise<CreateUserDto> {
-        createUserDto.password = await EncryptUtil.hashPassword(createUserDto.password);
-        const newUser = await this.authRepository.findOne(createUserDto.email);
-        if (newUser && newUser.password === createUserDto.password) {
-            const newUser = await this.authRepository.create(createUserDto);
-            await newUser.save();
-            delete newUser.password;
-            const { password, ...user } = newUser;
-            return newUser;
+    constructor(private usersService: UsersService) { }
+
+    async validateUserOrDriver(email:string, password:string): Promise<Partial<UserEntity>> {
+        const user = await this.usersService.findUserByEmail(email);
+        if (user && (await EncryptUtil.verifyPassword(password,  user.password))) {
+          const { password, ...userResult} = user; 
+          return userResult; 
+        }else{
+            throw new UnauthorizedException();
         }
-        return null;
-
+        
     }
-
-    async showById(id: number): Promise<AuthEntity> {
-        const user = await this.findById(id);
-        delete user.password;
-        return user;
-    }
-
-    async findById(id: number) {
-        return await AuthEntity.findOne(id);
-    }
-
-
-    async findByEmail(email: string) {
-        return await AuthEntity.findOne({ where: { email: email } })
-    }
-
 }

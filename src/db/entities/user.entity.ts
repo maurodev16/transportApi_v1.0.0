@@ -1,35 +1,65 @@
-import { BaseEntity, Column, Double, Entity, JoinColumn, ManyToMany, ManyToOne, OneToOne, PrimaryGeneratedColumn, Timestamp, UpdateDateColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Double, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, Timestamp, UpdateDateColumn } from "typeorm";
 import { DriverEntity } from "./driver.entity";
 import { RatingEntity } from "./rating.entity";
-import { StatusEntity } from "./status.entity";
 
 @Entity('users')
-export class UserEntity extends BaseEntity{
+export class UserEntity extends BaseEntity {
     @PrimaryGeneratedColumn('increment')
-    id: number;
+    public id: number;
 
-    @Column({type: 'integer', nullable: true })
-    floor: number;
+    @Column({ type: 'varchar', length: 100, nullable: false })
+    public firstname: string;
 
-    @Column({ type: 'varchar'})
-    pickUp: string;
+    @Column({ type: 'varchar', length: 100, nullable: true })
+    public lastname: string;
 
-    @Column({ type: "varchar"})
-    dropOff: string;
+    @Column({ type: "varchar", unique: true, nullable: true })
+    public phone: string;
 
-    @Column({type: "datetime", nullable: true })
-    scheduling: Date;
+    @Column({ type: "varchar", nullable: true, length: 30, unique: true })
+    public cel: string;
 
-    @Column({type:'timestamp'})
-    createdAt: Date;
+    @Column({ type: 'varchar', length: 150, nullable: false, unique: true })
+    public email: string;
 
-    @Column({type:'timestamp'})
-    updatedAt: Date;
+    @Column({ name: 'password', type: 'varchar', length: 60, nullable: true })
+    public password: string;
 
-    @ManyToOne(()=>StatusEntity, (statusEntity)=> statusEntity.users)
-    status:StatusEntity[];
+    @Column({ length: 5, nullable: true })
+    public postCode: string;
 
-    @ManyToMany(()=>RatingEntity, (ratingEntity)=> ratingEntity.users)
-    ratings:RatingEntity[];
+    @Column({ type: 'varchar', length: 150, nullable: true })
+    public ort: string;
+
+    @Column({ type: 'varchar', length: 150, nullable: true })
+    public city: string;
+
+    @Column({ type: 'integer', nullable: true })
+    public floor: number;
+
+    @Column({ type: 'varchar' })
+    public pickUp: string;
+
+    @Column({ type: "varchar" })
+    public dropOff: string;
+
+    @Column({type:'boolean'})
+    public isActive: Boolean;
+
+    @Column({ type: "timestamp", nullable: true })
+    public scheduling: Date;
+
+    @CreateDateColumn()
+    createdAt;
+
+    @UpdateDateColumn()
+    updatedAt;
+
+    @PrimaryColumn()
+    @Column({ type: 'integer' })
+    public statusId: number;
+
+    @ManyToMany(() => RatingEntity, (ratingEntity) => ratingEntity.users)
+    public ratings: RatingEntity[];
 
 }

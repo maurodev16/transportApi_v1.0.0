@@ -1,22 +1,20 @@
-import { Injectable, UnauthorizedException } from "@nestjs/common";
-import { PassportStrategy } from '@nestjs/passport';
-import { Strategy } from "passport-local";
+import { Injectable, UnprocessableEntityException } from "@nestjs/common";
+import { PassportStrategy } from "@nestjs/passport";
+import { Strategy } from "passport-local"
 import { AuthService } from "./auth.service";
-import { CreateUserDto } from "./authDto/Auth.dto";
+
 
 @Injectable()
-export class LocalStrategy extends PassportStrategy(Strategy){
-    constructor(private authService: AuthService){
-        super();
-    }
-
-
-    async validate(createUserDto: CreateUserDto): Promise<CreateUserDto>{
-        const user = await this.authService.getByEmail(createUserDto);
-        if(!user){
-            throw new UnauthorizedException();
+export class LocalStrategy extends PassportStrategy(Strategy) {
+    constructor(private authService: AuthService) { super({usernameField:'email'}); }
+    async validate(username:string, password:string) {
+        const userDriver = await this.authService.validateUserOrDriver(username, password);
+        if (userDriver) {
+            return userDriver;
+        } else {
+            throw new UnprocessableEntityException();
         }
-        return user;
+
     }
 }
 

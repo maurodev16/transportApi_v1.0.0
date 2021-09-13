@@ -1,71 +1,102 @@
 
-import { BaseEntity, Column, Double, Entity, JoinColumn, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
-import { AuthEntity } from "./auth.entity";
+import { BaseEntity, Column,  CreateDateColumn,  Double, Entity, JoinColumn, OneToMany, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { CarEntity } from "./car.entity";
 
 @Entity('drivers')
 export class DriverEntity extends BaseEntity {
     @PrimaryGeneratedColumn('increment')
-    id: number;
+    public id: number;
 
-    @Column({ name: 'driver_Id', type: "integer"})
-    driverId: number;
+    @Column({ type: 'varchar', length: 100, nullable: false })
+    public firstname: string;
 
-    @Column({type: 'varchar', length: 20 })
-    hauseNumber: string;
+    @Column({ type: 'varchar', length: 100, nullable: true })
+    public lastname: string;
 
-    @Column({type: 'varchar', length: 20 })
-    language: string;
+    @Column({ type: "varchar", unique: true, nullable: true })
+    public phone: string;
 
-    @Column({ type: 'double'})
-    startPrice: Double;
+    @Column({ type: "varchar", nullable: true, length: 30, unique: true })
+    public cel: string;
 
-    @Column({ type: 'integer'})
-    trips: number;
+    @Column({ type: 'varchar', length: 150, nullable: true, unique: true })
+    public email: string;
+
+    @Column({ name: 'password', type: 'varchar', length: 60, nullable: true })
+    public password: string;
+
+    @Column({ length: 5, nullable: true })
+    public postCode: string;
+
+    @Column({ type: 'varchar', length: 150, nullable: true })
+    public ort: string;
+
+    @Column({ type: 'varchar', length: 150, nullable: true })
+    public city: string;
+
+    @Column({ type: 'varchar', length: 20 })
+    public hauseNumber: string;
+
+    @Column({ type: 'varchar', length: 20 })
+    public language: string;
+
+    @Column({ type: 'decimal' })
+    public startPrice: Double;
+
+    @Column({ type: 'integer' })
+    public trips: number;
 
     @Column({ type: 'boolean', default: false })
-    doHelp: Boolean;
+    public doHelp: Boolean;
+
+    @Column({ type: 'boolean', default: false })
+    public isOnline: Boolean;
+
+    @Column({type:'boolean', default: false})
+    public status: Boolean;
 
     @Column({ type: "varchar" })
-    driverAvatarUrl: string;
+    public driverAvatarUrl: string;
 
     @Column({ type: 'varchar' })
-    carImgUrl1: string;
+    public carImgUrl1: string;
 
     @Column({ type: 'varchar' })
-    carImgUrl2: string;
-
-    @Column({type: 'varchar' })
-    carImgUrl3: string;
-
-    @Column({type: 'varchar' })
-    carImgUrl4: string;
-
-    @Column({type: 'varchar' })
-    carImgUrl5: string;
+    public carImgUrl2: string;
 
     @Column({ type: 'varchar' })
-    docUrl1: string;
+    public carImgUrl3: string;
 
     @Column({ type: 'varchar' })
-    docUrl2: string;
+    public carImgUrl4: string;
 
-    @Column({type: 'varchar' })
-    docUrl3: string;
+    @Column({ type: 'varchar' })
+    public carImgUrl5: string;
 
-    @Column({type: 'varchar' })
-    docUrl4: string;
-    @Column({type:'timestamp'})
-    createdAt: Date;
+    @Column({ type: 'varchar' })
+    public docUrl1: string;
 
-    @Column({type:'timestamp'})
-    updatedAt: Date;
+    @Column({ type: 'varchar' })
+    public docUrl2: string;
+
+    @Column({ type: 'varchar' })
+    public docUrl3: string;
+
+    @Column({ type: 'varchar' })
+    public docUrl4: string;
+
+    @CreateDateColumn()
+    createdAt;
+
+    @UpdateDateColumn()
+    updatedAt;
 
     @PrimaryColumn()
     @Column({ type: 'integer' })
-    carId: number;
+    public carId: number;
 
     @OneToMany(() => CarEntity, (car) => car.drivers)
-    @JoinColumn({name:'carId'})
+    @JoinColumn({ name: 'carId' })
     cars: CarEntity[];
+   
 }

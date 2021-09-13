@@ -10,10 +10,10 @@ export class RatingEntity extends BaseEntity{
     rating: number;
 
     @PrimaryColumn()
-    @Column({name:'user_Id',type:'integer'})
+    @Column({type:'integer'})
     userId:number;
 
     @ManyToMany(()=> UserEntity, user => user.ratings)
-    @JoinColumn({name:'user_Id'})
+    @JoinColumn({name:'userId'})
     users:UserEntity[]
 }

@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Double, Entity, JoinColumn, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn, Timestamp } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Double, Entity, JoinColumn, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn, Timestamp, UpdateDateColumn } from "typeorm";
 import { DriverEntity } from "./driver.entity";
 
 @Entity('cars')
@@ -18,11 +18,11 @@ export class CarEntity extends BaseEntity {
     @Column({  type: "varchar", nullable: false })
     licensePlate: string;
 
-    @Column({type:'timestamp'})
-    createdAt: Date;
+    @CreateDateColumn()
+    createdAt;
 
-    @Column({type:'timestamp'})
-    updatedAt: Date;
+    @UpdateDateColumn()
+    updatedAt;
 
     @PrimaryColumn()
     @Column({ type: 'integer' })
