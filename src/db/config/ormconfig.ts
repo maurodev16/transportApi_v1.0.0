@@ -1,4 +1,5 @@
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
+import { syncBuiltinESMExports } from "module";
 import { join, resolve } from "path";
 
 
@@ -6,7 +7,7 @@ const options: TypeOrmModuleOptions = {
     name: 'default',
     type: 'postgres',
     host: process.env.HOST || 'localhost',
-    url: process.env.URI,
+    //url: process.env.URI,
     database: process.env.DATABASE || 'transportdb',
     username: process.env.USER || 'postgres',
     port: parseInt(process.env.PORT || '5432'),

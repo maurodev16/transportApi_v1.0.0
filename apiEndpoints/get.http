@@ -1,4 +1,4 @@
-GET http://localhost:3333/auth/register HTTP/1.1
+GET http://localhost:3333/cars/3 HTTP/1.1
 ###
 
 GET http://localhost:3333/auth/12 HTTP/1.1

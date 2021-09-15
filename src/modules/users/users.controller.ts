@@ -1,19 +1,20 @@
-import { Body, Controller, Get, Param, Post, UseGuards, Request } from '@nestjs/common';
-import { LocalAuthGuard } from '../auth/local-auth.guard';
+import { Body, Controller, Get, Param, Post, UseGuards, Request, NotFoundException } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UserEntity } from 'src/db/entities/user.entity';
 
-@Controller('users')
+@Controller('user')
 export class UsersController {
     constructor(private userService: UsersService) { }
     
     @Post('register')
     async registerUser(
-        @Body() userData: Partial<UserEntity>,
-    ): Promise<Partial<UserEntity>>{
+        @Body() userData: Partial<UserEntity>): 
+        Promise<Partial<UserEntity>>{
         const newUser = await this.userService.registerUser(userData);
-        return newUser;
+        if (!newUser) {
+            throw new NotFoundException('USER not found:::::');
+        } else { return newUser; }
+      
     }
-
     
 }

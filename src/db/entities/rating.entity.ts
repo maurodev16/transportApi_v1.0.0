@@ -4,7 +4,7 @@ import { UserEntity } from "./user.entity";
 @Entity('rating')
 export class RatingEntity extends BaseEntity{
     @PrimaryGeneratedColumn('increment')
-    id: number;
+    id?: number;
     
     @Column({type: 'integer'})
     rating: number;

@@ -3,27 +3,36 @@
 # Content-Type: application/json
 
 # {
-#     "driver_Id": 123456789,
-#     "hauseNumber": "3",
-#     "language": "portuge",
-#     "startPrice": 25.00,
-#     "trips": 122,
-#     "doHelp": true,
-#     "driverAvatarUrl": "urlddjddd",
-#     "carImgUrl1": "urlddjddd",
-#     "carImgUrl2": "urlddjddd",
-#     "carImgUrl3": "urlddjddd",
-#     "carImgUrl4": "urlddjddd",
-#     "carImgUrl5": "urlddjddd",
-#     "docUrl1": "urlddjddd",
-#     "docUrl2": "urlddjddd",
-#     "docUrl3": "urlddjddd",
-#     "docUrl4": "urlddjddd"
-    
+#      "firstname": "Mauro Sergio",
+#      "lastname": "Rodrigues da Silva",
+#      "phone": "02212544",
+#      "cel": "017666332505",
+#      "email": "mauro.silva.skype@gmail.com",
+#      "password": "124567",
+#      "postCode": "45145",
+#      "ort": "Frohnhausen",
+#      "city": "Essen",
+#      "hauseNumber": "4",
+#      "language": "Portugues",
+#      "startPrice": 90.0,
+#      "trips": 1222,
+#      "doHelp": true,
+#      "isOnline": true,
+#      "status": true,
+#      "driverAvatarUrl": "https://bin.staticlocal.ch/localplace-logo/de/de308a9113cccd95f0d1768c3850b5a52e8890c4/Logo-%EF%BF%BD%EF%BF%BDberall-Umzug.jpg",
+#      "carImgUrl1": "https://cdnratgeber.movu.ch/wp-content/uploads/2015/05/umzugsfirma.jpg?x81983",
+#      "carImgUrl2": "https://i.ytimg.com/vi/FSZlohq4g24/maxresdefault.jpg",
+#      "carImgUrl3": "https://http2.mlstatic.com/D_NQ_NP_892163-MLB46926065073_072021-W.jpg",
+#      "carImgUrl4": "https://image.webmotors.com.br/_fotos/AnuncioUsados/gigante/2021/202107/20210730/mercedesbenz-sprinter-2.2-furgao-413-cdi-teto-elevado-3p-manual-wmimagem14300275710.jpg",
+#      "carImgUrl5": "https://img.clasf.com.br/2020/02/13/Mercedes-Benz-Sprinter-Furgo-2-2-Cdi-313-Street-Longo-Teto-20200213204704.4467230015.jpg",
+#      "docUrl1": "https://www.bmvi.de/SharedDocs/DE/Bilder/StV/Strassenverkehr/fuehrerschein-vorderseite.jpg?__blob=normal",
+#      "docUrl2": "https://www.busplaner.de/sites/default/files/public/styles/_news_1050x700_/public/images-news-teaser/fuehrerschein.jpg",
+#      "docUrl3": "https://fuehrerschein-europa.com/wp-content/uploads/2021/01/fstsch-min.jpg",
+#      "docUrl4": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/F%C3%BChrerschein_BRD_US-Zone_innen_01.jpg/220px-F%C3%BChrerschein_BRD_US-Zone_innen_01.jpg",
 # }
 
 
-POST http://localhost:3333/auth/login/ HTTP/1.1
+POST http://localhost:3333/auth/logindriver/ HTTP/1.1
 Content-Type: application/json
 
 {

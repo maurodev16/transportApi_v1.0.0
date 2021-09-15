@@ -5,7 +5,7 @@ import { RatingEntity } from "./rating.entity";
 @Entity('users')
 export class UserEntity extends BaseEntity {
     @PrimaryGeneratedColumn('increment')
-    public id: number;
+    public id?: number;
 
     @Column({ type: 'varchar', length: 100, nullable: false })
     public firstname: string;
@@ -19,13 +19,13 @@ export class UserEntity extends BaseEntity {
     @Column({ type: "varchar", nullable: true, length: 30, unique: true })
     public cel: string;
 
-    @Column({ type: 'varchar', length: 150, nullable: false, unique: true })
+    @Column({ type: 'varchar', nullable: false, unique: true })
     public email: string;
 
     @Column({ name: 'password', type: 'varchar', length: 60, nullable: true })
     public password: string;
-
-    @Column({ length: 5, nullable: true })
+ 
+    @Column({ type: 'varchar', length: 5, nullable: true })
     public postCode: string;
 
     @Column({ type: 'varchar', length: 150, nullable: true })
@@ -46,7 +46,13 @@ export class UserEntity extends BaseEntity {
     @Column({type:'boolean'})
     public isActive: Boolean;
 
-    @Column({ type: "timestamp", nullable: true })
+    @Column({type:'boolean'})
+    public isVerified: Boolean;
+
+    @Column({ type: 'boolean', default: false })
+    public status: Boolean;
+
+    @Column({ type: 'timestamp', nullable: true })
     public scheduling: Date;
 
     @CreateDateColumn()
@@ -55,9 +61,6 @@ export class UserEntity extends BaseEntity {
     @UpdateDateColumn()
     updatedAt;
 
-    @PrimaryColumn()
-    @Column({ type: 'integer' })
-    public statusId: number;
 
     @ManyToMany(() => RatingEntity, (ratingEntity) => ratingEntity.users)
     public ratings: RatingEntity[];

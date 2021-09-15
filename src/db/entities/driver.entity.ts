@@ -1,11 +1,11 @@
 
-import { BaseEntity, Column,  CreateDateColumn,  Double, Entity, JoinColumn, OneToMany, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { BaseEntity, Column,  CreateDateColumn,  Double, Entity, JoinColumn, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { CarEntity } from "./car.entity";
 
 @Entity('drivers')
 export class DriverEntity extends BaseEntity {
     @PrimaryGeneratedColumn('increment')
-    public id: number;
+    public id?: number;
 
     @Column({ type: 'varchar', length: 100, nullable: false })
     public firstname: string;
@@ -52,38 +52,14 @@ export class DriverEntity extends BaseEntity {
     @Column({ type: 'boolean', default: false })
     public isOnline: Boolean;
 
+    @Column({type:'boolean', default:true})
+    public isActive: Boolean;
+
     @Column({type:'boolean', default: false})
-    public status: Boolean;
+    public isVerified: Boolean;
 
     @Column({ type: "varchar" })
     public driverAvatarUrl: string;
-
-    @Column({ type: 'varchar' })
-    public carImgUrl1: string;
-
-    @Column({ type: 'varchar' })
-    public carImgUrl2: string;
-
-    @Column({ type: 'varchar' })
-    public carImgUrl3: string;
-
-    @Column({ type: 'varchar' })
-    public carImgUrl4: string;
-
-    @Column({ type: 'varchar' })
-    public carImgUrl5: string;
-
-    @Column({ type: 'varchar' })
-    public docUrl1: string;
-
-    @Column({ type: 'varchar' })
-    public docUrl2: string;
-
-    @Column({ type: 'varchar' })
-    public docUrl3: string;
-
-    @Column({ type: 'varchar' })
-    public docUrl4: string;
 
     @CreateDateColumn()
     createdAt;
@@ -91,12 +67,8 @@ export class DriverEntity extends BaseEntity {
     @UpdateDateColumn()
     updatedAt;
 
-    @PrimaryColumn()
-    @Column({ type: 'integer' })
-    public carId: number;
-
-    @OneToMany(() => CarEntity, (car) => car.drivers)
-    @JoinColumn({ name: 'carId' })
-    cars: CarEntity[];
+    @OneToOne(() => CarEntity,(car:CarEntity) => car.drivers,{cascade: true})
+    @JoinColumn()
+    public cars: CarEntity[];
    
 }

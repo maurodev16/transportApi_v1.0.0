@@ -1,34 +1,44 @@
-import { BaseEntity, Column, CreateDateColumn, Double, Entity, JoinColumn, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn, Timestamp, UpdateDateColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Double, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn, PrimaryGeneratedColumn, Timestamp, UpdateDateColumn } from "typeorm";
 import { DriverEntity } from "./driver.entity";
 
 @Entity('cars')
 export class CarEntity extends BaseEntity {
     @PrimaryGeneratedColumn('increment')
-    id: number;
+    public id: number;
 
     @Column({type: 'varchar', length: 100, nullable: false })
-    carName: string;
+    public carName: string;
 
     @Column({ type: 'varchar', length: 50, nullable: false })
-    carBrand: string;
-
-    @Column({ type: "varchar", nullable: true })
-    carImage: string;
+    public  carBrand: string;
 
     @Column({  type: "varchar", nullable: false })
-    licensePlate: string;
+    public  licensePlate: string;
+
+    @Column({ type: 'varchar' })
+    public carImgUrl1: string;
+
+    @Column({ type: 'varchar' })
+    public carImgUrl2: string;
+
+    @Column({ type: 'varchar' })
+    public carImgUrl3: string;
+
+    @Column({ type: 'varchar' })
+    public carImgUrl4: string;
+
+    @Column({ type: 'varchar' })
+    public carImgUrl5: string;
+    
+    @Column({ type: 'varchar' })
+    public docUrl: string;
 
     @CreateDateColumn()
-    createdAt;
+    public createdAt;
 
     @UpdateDateColumn()
-    updatedAt;
+    public updatedAt;
 
-    @PrimaryColumn()
-    @Column({ type: 'integer' })
-    driverId: number;
-
-    @ManyToOne(() => DriverEntity, (driver) => driver.cars, {onDelete: 'CASCADE'})
-    @JoinColumn({ name: 'driverId' })
-    drivers: DriverEntity[];
+    @OneToMany(() => DriverEntity, (driver: DriverEntity) => driver.cars)
+    public drivers: DriverEntity[];
 }
