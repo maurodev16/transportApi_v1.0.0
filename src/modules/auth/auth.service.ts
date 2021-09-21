@@ -6,100 +6,78 @@ import { UserEntity } from 'src/db/entities/user.entity';
 import { EncryptUtil } from 'src/shared/utils/encrypt.util';
 import { DriverService } from '../drivers/drivers.service';
 import { UsersService } from '../users/users.service';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
 
-    constructor(private readonly usersService: UsersService,
+    constructor(
+        private readonly usersService: UsersService,
         private readonly driverService: DriverService,
         private readonly jwtService: JwtService,
         private readonly configService: ConfigService) { }
 
 
-        public getCookieWithJwtToken(id: number){
-            const payLoad:TokenPayload = {id};
-            const token = this.jwtService.sign(payLoad);
-            return `Authentication=${token}; 
-            HttpOnly; 
-            Path=/; 
-            Max-Age=${this.configService.get(process.env.JWT_ACCESS_TOKEN_EXPIRATION_TIME)}`;
-        }
+    /****REGISTER DRIVER****/
+    async registerDriver(driverData: Partial<DriverEntity>): Promise<Partial<DriverEntity>> {
+        driverData.password = await EncryptUtil.hashPassword(driverData.password);
+        try {
+            const newDriver = await this.driverService.createDriver({ ...driverData, password: driverData.password });
+            delete driverData.password;
+            return newDriver;
 
-        private async verifyPassword(plainTextPassword: string, hashedPassword: string) {
-            const isPasswordMatching = await EncryptUtil.verifyPassword(plainTextPassword, hashedPassword);
-            if (!isPasswordMatching) {
-                throw new HttpException('Wrong credentials provided', HttpStatus.BAD_REQUEST);
+        } catch (error) {
+            if (error?.code === PostgresErrorCode.UniqueViolation) {
+                throw new HttpException('Driver with that email already exists', HttpStatus.BAD_REQUEST);
+            } else {
+                throw new HttpException('Something went wrong', HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+    }
+
+    /****REGISTER USER****/
+    async registerUser(userData: Partial<UserEntity>): Promise<Partial<UserEntity>> {
+        userData.password = await EncryptUtil.hashPassword(userData.password);
+        try {
+            const newUser = await this.usersService.createUser({ ...userData, password: userData.password });
+            // delete userData.password;
+            return newUser;
+
+        } catch (error) {
+            if (error?.code === PostgresErrorCode.UniqueViolation) {
+                throw new HttpException('User with that email already exists', HttpStatus.BAD_REQUEST);
+            } else {
+                throw new HttpException('Something went wrong', HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
 
-    async validateUser(email: string, password: string): Promise<Partial<UserEntity>> {
+    }
 
+
+    public async getAuthUser(email: string, password: string): Promise<Partial<UserEntity>> {
         try {
             const user = await this.usersService.findUserByEmail(email);
-            const isPasswordMatching = await EncryptUtil.verifyPassword(password, user.password);
-            if (!isPasswordMatching) {
-                throw new HttpException('Wrong_credentials_provided', HttpStatus.BAD_REQUEST);
+            if (user && bcrypt.compareSync(password, user.password)) {
+                const { password, ...rest } = user;
+                return rest;
             }
-            else {
-                const { password, ...userResult } = user;
-                user.password = undefined;
-                return userResult;
-            }
-        } catch (error) {
-            throw new HttpException('Wrong_credentials_provided', HttpStatus.BAD_REQUEST);
-        }
-    }
-
- 
-
-    async validateDriver(email: string, password: string): Promise<Partial<DriverEntity>> {
-        const driver = await this.driverService.findDriverByEmail(email);
-        if (driver && (await EncryptUtil.verifyPassword(password, driver.password))) {
-            const { password, ...driverResult } = driver;
-            return driverResult;
-        } else {
-            throw new UnauthorizedException();
             return null;
         }
+        catch (error) {
+            throw new HttpException('Wrong credentials provided for User', HttpStatus.BAD_REQUEST);
+        }
     }
 
-    public getCookieForLogOut() {
-        return `Authentication=; HttpOnly; Path=/; Max-Age=0`;
-      }
-      
-    // async loginUser(userData: Partial<UserEntity>): Promise<any> {
-    //     const payload = {
-    //         firstname: userData.firstname,
-    //         lastname: userData.lastname,
-    //         email: userData.email,
-    //         sub: userData.id,
-    //     };
-    //     const token = this.jwtService.sign(payload, {
-    //         secret: this.configService.get(process.env.CONST_JWT),
-    //         expiresIn: `${this.configService.get(process.env.JWT_ACCESS_TOKEN_EXPIRATION_TIME)}`
-    //     });
-    //     var tk = `Authentication=${token}; HttpOnly; Path=/; Max-Age=${this.configService.get(process.env.JWT_ACCESS_TOKEN_EXPIRATION_TIME)}`;
-    //     return {
-    //         tk,
-    //         firstname: userData.firstname,
-    //     }
-    // }
-
-    // async loginDriver(driverData: Partial<DriverEntity>): Promise<any> {
-    //     const payload = {
-    //         firstname: driverData.firstname,
-    //         lastname: driverData.lastname,
-    //         email: driverData.email,
-    //         sub: driverData.id,
-    //     };
-    //     const token = this.jwtService.sign(payload, {
-    //         secret: this.configService.get(process.env.CONST_JWT),
-    //         expiresIn: `${this.configService.get('JWT_ACCESS_TOKEN_EXPIRATION_TIME')}s`
-    //     });
-    //     var tk = `Authentication=${token}; HttpOnly; Path=/; Max-Age=${this.configService.get('JWT_ACCESS_TOKEN_EXPIRATION_TIME')}`;
-    //     return {
-    //         tk,
-    //         firstname: driverData.firstname,
-    //     }
-    // }
+    public async getAuthenticatedDriver(email: string, password: string): Promise<Partial<DriverEntity>> {
+        try {
+            const driver = await this.driverService.findDriverByEmail(email);
+            if (driver && bcrypt.compareSync(password, driver.password)) {
+                const { password, ...rest } = driver;
+                return rest;
+            }
+            return null;
+        } catch (error) {
+            throw new HttpException('Wrong credentials provided for Driver', HttpStatus.BAD_REQUEST);
+        }
+    }
 }

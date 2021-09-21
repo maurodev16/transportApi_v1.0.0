@@ -4,16 +4,16 @@ import { UserEntity } from "./user.entity";
 @Entity('rating')
 export class RatingEntity extends BaseEntity{
     @PrimaryGeneratedColumn('increment')
-    id?: number;
+    public id: number;
     
     @Column({type: 'integer'})
-    rating: number;
+    public  rating: number;
 
     @PrimaryColumn()
     @Column({type:'integer'})
-    userId:number;
+    public userId:number;
 
     @ManyToMany(()=> UserEntity, user => user.ratings)
     @JoinColumn({name:'userId'})
-    users:UserEntity[]
+    public users:UserEntity[]
 }

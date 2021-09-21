@@ -1,11 +1,12 @@
 
-import { BaseEntity, Column,  CreateDateColumn,  Double, Entity, JoinColumn, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { IsEmail, IsMobilePhone, IsPhoneNumber, IsPostalCode } from "class-validator";
+import { BaseEntity, Column, CreateDateColumn, Double, Entity, JoinColumn, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { CarEntity } from "./car.entity";
 
-@Entity('drivers')
+@Entity('driver')
 export class DriverEntity extends BaseEntity {
     @PrimaryGeneratedColumn('increment')
-    public id?: number;
+    public id: number;
 
     @Column({ type: 'varchar', length: 100, nullable: false })
     public firstname: string;
@@ -13,18 +14,25 @@ export class DriverEntity extends BaseEntity {
     @Column({ type: 'varchar', length: 100, nullable: true })
     public lastname: string;
 
+    @IsPhoneNumber('DE')
     @Column({ type: "varchar", unique: true, nullable: true })
     public phone: string;
 
+    @IsMobilePhone('de-DE')
     @Column({ type: "varchar", nullable: true, length: 30, unique: true })
     public cel: string;
 
+    @IsEmail()
     @Column({ type: 'varchar', length: 150, nullable: true, unique: true })
     public email: string;
+
+    @Column({ default: false })
+    public isEmailConfirmed: boolean;
 
     @Column({ name: 'password', type: 'varchar', length: 60, nullable: true })
     public password: string;
 
+    @IsPostalCode('DE')
     @Column({ length: 5, nullable: true })
     public postCode: string;
 
@@ -43,19 +51,19 @@ export class DriverEntity extends BaseEntity {
     @Column({ type: 'decimal' })
     public startPrice: Double;
 
-    @Column({ type: 'integer' })
+    @Column({ type: 'integer', nullable: true })
     public trips: number;
 
-    @Column({ type: 'boolean', default: false })
+    @Column({ type: 'boolean'})
     public doHelp: Boolean;
 
     @Column({ type: 'boolean', default: false })
     public isOnline: Boolean;
 
-    @Column({type:'boolean', default:true})
+    @Column({ type: 'boolean', default: true })
     public isActive: Boolean;
 
-    @Column({type:'boolean', default: false})
+    @Column({ type: 'boolean', default: false })
     public isVerified: Boolean;
 
     @Column({ type: "varchar" })
@@ -67,8 +75,8 @@ export class DriverEntity extends BaseEntity {
     @UpdateDateColumn()
     updatedAt;
 
-    @OneToOne(() => CarEntity,(car:CarEntity) => car.drivers,{cascade: true})
+    @OneToOne(() => CarEntity, (car: CarEntity) => car.drivers, { cascade: true })
     @JoinColumn()
     public cars: CarEntity[];
-   
+
 }

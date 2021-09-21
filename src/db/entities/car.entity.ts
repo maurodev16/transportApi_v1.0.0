@@ -1,7 +1,7 @@
 import { BaseEntity, Column, CreateDateColumn, Double, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn, PrimaryGeneratedColumn, Timestamp, UpdateDateColumn } from "typeorm";
 import { DriverEntity } from "./driver.entity";
 
-@Entity('cars')
+@Entity('car')
 export class CarEntity extends BaseEntity {
     @PrimaryGeneratedColumn('increment')
     public id: number;

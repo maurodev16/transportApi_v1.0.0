@@ -9,36 +9,40 @@ import { Driver, Repository } from 'typeorm';
 export class DriverService {
     constructor(@InjectRepository(DriverEntity) private driverRepository: Repository<DriverEntity>) { }
 
-    async registerDriver(driverData: Partial<DriverEntity>): Promise<Partial<DriverEntity>> {
-        try {
-            driverData.password = await EncryptUtil.hashPassword(driverData.password);
-            const newDriver = await this.driverRepository.save(driverData);
-            if (newDriver) {
-                const { password, ...driver } = newDriver;
-                return driver;
-            }
-
-        } catch (error) {
-            throw error;
-        }
+    async createDriver(driverData: Partial<DriverEntity>): Promise<Partial<DriverEntity>> {
+        const newDriver = await this.driverRepository.create(driverData);
+        await this.driverRepository.save(newDriver);
+        return newDriver;
     }
+
 
     async findDriverByEmail(email: string): Promise<DriverEntity> {
-        const driver = await this.driverRepository.findOne({ where: { email } });
-        if (driver) {
-            return driver;
-        } else {
-            throw new HttpException('User with this email does not exist', HttpStatus.NOT_FOUND);
+        const driver = await this.driverRepository.findOne({ email });
+        try {
+            if (driver) {
+                return driver;
+            }else{
+                return null;
+            }
+        } catch (error) {
+            throw new HttpException('Driver with this email does not exist', HttpStatus.NOT_FOUND);
         }
     }
-
 
     async getDriverById(id: number) {
         const driver = await this.driverRepository.findOne({ id });
-        if (driver) {
-            return driver;
+        try {
+            if (driver) {
+                return driver;
+            }else{
+                return null;
+            }
+        } catch (error) {
+            throw new HttpException(error, HttpStatus.NOT_FOUND);
         }
-        throw new HttpException('User with this id does not exist', HttpStatus.NOT_FOUND);
     }
 
+    async getAllDrives():Promise<DriverEntity[]>{
+        return this.driverRepository.find();
+    }
 }

@@ -6,20 +6,21 @@ import { DriversModule } from '../drivers/drivers.module';
 import { UsersModule } from '../users/users.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
+import { jwtConstants } from './constants';
 import { JwtStrategy } from './jwt.strategy';
-import { LocalStrategyDriver, LocalStrategyUser } from './local.strategy';
+import { LocalStrategyDriver } from './local.strategyDriver';
+import { LocalStrategyUser } from './local.strategyUser';
 @Module({
-  imports: [UsersModule, PassportModule, ConfigModule, DriversModule,PassportModule, JwtModule.registerAsync({
-    imports:[ConfigModule], inject:[ConfigService],
-    useFactory: async (configureService:ConfigService) =>({
-      secret:configureService.get(process.env.SECURITY_JWT),
-      signOptions:{
-        expiresIn: configureService.get(process.env.JWT_ACCESS_TOKEN_EXPIRATION_TIME)
-      }
-    })
-  })],
+  imports: [UsersModule, PassportModule, ConfigModule, DriversModule,
+    JwtModule.registerAsync({
+      inject: [ConfigService],
+      useFactory: async (configureService: ConfigService) => ({
+        secret: jwtConstants.secret,
+        signOptions: { expiresIn: '60s' }
+      })
+    })],
   controllers: [AuthController],
   providers: [AuthService, UsersModule, DriversModule, LocalStrategyUser, LocalStrategyDriver, JwtStrategy],
-  exports:[AuthService, PassportModule, AuthService],
+  exports: [AuthService, PassportModule, AuthService],
 })
 export class AuthModule { }

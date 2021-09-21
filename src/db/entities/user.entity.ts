@@ -1,11 +1,11 @@
-import { BaseEntity, Column, CreateDateColumn, Double, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, Timestamp, UpdateDateColumn } from "typeorm";
-import { DriverEntity } from "./driver.entity";
+import { IsEmail, IsMobilePhone, IsPhoneNumber, IsPostalCode } from "class-validator";
+import { BaseEntity, Column, CreateDateColumn, Entity, ManyToMany,  PrimaryGeneratedColumn,  UpdateDateColumn } from "typeorm";
 import { RatingEntity } from "./rating.entity";
 
-@Entity('users')
+@Entity('user')
 export class UserEntity extends BaseEntity {
     @PrimaryGeneratedColumn('increment')
-    public id?: number;
+    public id: number;
 
     @Column({ type: 'varchar', length: 100, nullable: false })
     public firstname: string;
@@ -13,18 +13,25 @@ export class UserEntity extends BaseEntity {
     @Column({ type: 'varchar', length: 100, nullable: true })
     public lastname: string;
 
+    @IsPhoneNumber('DE')
     @Column({ type: "varchar", unique: true, nullable: true })
     public phone: string;
 
+    @IsMobilePhone('de-DE')
     @Column({ type: "varchar", nullable: true, length: 30, unique: true })
     public cel: string;
 
+    @IsEmail()
     @Column({ type: 'varchar', nullable: false, unique: true })
     public email: string;
 
-    @Column({ name: 'password', type: 'varchar', length: 60, nullable: true })
+    @Column({ name: 'password', type: 'varchar', length: 60, nullable: false })
     public password: string;
  
+    @Column({ default: false })
+    public isEmailConfirmed: boolean;
+    
+    @IsPostalCode('DE')
     @Column({ type: 'varchar', length: 5, nullable: true })
     public postCode: string;
 
@@ -33,15 +40,6 @@ export class UserEntity extends BaseEntity {
 
     @Column({ type: 'varchar', length: 150, nullable: true })
     public city: string;
-
-    @Column({ type: 'integer', nullable: true })
-    public floor: number;
-
-    @Column({ type: 'varchar' })
-    public pickUp: string;
-
-    @Column({ type: "varchar" })
-    public dropOff: string;
 
     @Column({type:'boolean'})
     public isActive: Boolean;
@@ -52,15 +50,11 @@ export class UserEntity extends BaseEntity {
     @Column({ type: 'boolean', default: false })
     public status: Boolean;
 
-    @Column({ type: 'timestamp', nullable: true })
-    public scheduling: Date;
-
     @CreateDateColumn()
     createdAt;
 
     @UpdateDateColumn()
     updatedAt;
-
 
     @ManyToMany(() => RatingEntity, (ratingEntity) => ratingEntity.users)
     public ratings: RatingEntity[];

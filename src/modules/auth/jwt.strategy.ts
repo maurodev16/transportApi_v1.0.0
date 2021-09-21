@@ -6,6 +6,7 @@ import { Strategy } from "passport-local";
 import { UsersService } from "../users/users.service";
 import { Request } from 'express';
 import { DriverService } from "../drivers/drivers.service";
+import { jwtConstants } from "./constants";
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -14,19 +15,18 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         private readonly driverService:DriverService,
         ) {
         super({
-            jwtFromRequest: ExtractJwt.fromExtractors([(request:Request)=>{
-                return request?.cookies?.Authentication;
-            }]),
+            jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
             ignoreExpiration:false,
-            secretOrKey:configService.get(process.env.CONST_JWT),
+            secretOrKey:jwtConstants.secret,
+            
         });
     }
 
-    async validateUser(payload:TokenPayload){
+    async validateUser(payload:any){
         return this.userService.getUserById(payload.id);
     }
 
-    async validateDriver(payload:TokenPayload){
+    async validateDriver(payload:any){
         return this.driverService.getDriverById(payload.id)
     }
 }

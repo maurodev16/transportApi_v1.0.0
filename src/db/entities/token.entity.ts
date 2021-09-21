@@ -1,13 +1,16 @@
+import { IsEmail, IsJWT } from "class-validator";
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity('tokens')
+@Entity('token')
 export class TokenEntity extends BaseEntity{
     @PrimaryGeneratedColumn('increment')
-    id?: number;
+    public id: number;
 
+    @IsJWT()
     @Column({type: 'varchar', length: 255, nullable: false })
-    token: string;
+    public token: string;
 
+    @IsEmail()
     @Column({type: 'varchar', length: 150, nullable: false, unique: true })
-    email: string;
+   public email: string;
 }
