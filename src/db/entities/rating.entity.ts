@@ -1,5 +1,4 @@
-import { BaseEntity, Column, Entity, JoinColumn, ManyToMany, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
-import { UserEntity } from "./user.entity";
+import { BaseEntity, Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('rating')
 export class RatingEntity extends BaseEntity{
@@ -13,7 +12,4 @@ export class RatingEntity extends BaseEntity{
     @Column({type:'integer'})
     public userId:number;
 
-    @ManyToMany(()=> UserEntity, user => user.ratings)
-    @JoinColumn({name:'userId'})
-    public users:UserEntity[]
 }
