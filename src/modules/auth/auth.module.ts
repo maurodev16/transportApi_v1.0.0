@@ -8,8 +8,13 @@ import { JwtStrategy } from './jwt.strategy';
 import { LocalStrategy } from './local.strategyUser';
 import { UserModule } from '../users/users.module';
 import { UserController } from '../users/users.controller';
+import { TokensModule } from '../tokens/tokens.module';
 @Module({
-  imports: [UserModule, PassportModule, ConfigModule,
+  imports: [
+    UserModule, 
+    PassportModule,
+    ConfigModule,
+    TokensModule,
     JwtModule.registerAsync({
       inject: [ConfigService],
       useFactory: async (configureService: ConfigService) => ({

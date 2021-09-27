@@ -9,6 +9,7 @@ import { VehicleModule } from './modules/vehicle/vehicle.module';
 import { RatingsModule } from './modules/ratings/ratings.module';
 import { UserController } from './modules/users/users.controller';
 import { AuthModule } from './modules/auth/auth.module';
+import { TokensModule } from './modules/tokens/tokens.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -16,6 +17,7 @@ import { AuthModule } from './modules/auth/auth.module';
     AuthModule,
     VehicleModule,
     RatingsModule,
+    TokensModule,
   ],
   controllers: [AppController, RatingsController],
   
