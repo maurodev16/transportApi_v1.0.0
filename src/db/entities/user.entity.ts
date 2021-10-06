@@ -1,6 +1,6 @@
 
 import { IsEmail, IsMobilePhone, IsPostalCode, } from "class-validator";
-import { BaseEntity, Column, CreateDateColumn, Double, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Double, Entity, JoinColumn, JoinTable, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { VehicleEntity } from "./vehicle.entity";
 
 
@@ -70,13 +70,13 @@ export class UserEntity extends BaseEntity {
     public isDriver: Boolean;
 
     @CreateDateColumn()
-    createdAt;
+    public  createdAt;
 
     @UpdateDateColumn()
-    updatedAt;
-    
-    @ManyToOne(() => VehicleEntity, (vehicle: VehicleEntity) => vehicle.user, { cascade: true })
-    @JoinColumn({name:"vehicle_id"})
+    public updatedAt;
+
+    @OneToMany(() => VehicleEntity, (vehicle: VehicleEntity) => vehicle.user, { cascade: true })
+
     public vehicles: VehicleEntity[];
 
 }

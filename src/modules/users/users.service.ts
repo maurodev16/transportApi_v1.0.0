@@ -38,7 +38,14 @@ export class UserService {
     }
         
     async getAllUsers():Promise<UserEntity[]>{
-        return this.userRepository.find();
+        const users = this.userRepository.find();
+        try {
+            if((await users))
+            return users
+        } catch (error) {
+            throw new error;
+        }
+        return 
     }
 
 
@@ -52,6 +59,22 @@ export class UserService {
 
             throw new HttpException('Email does not exist', HttpStatus.NOT_FOUND);
         }
+    }
+
+    async getOneUser(id: number): Promise<UserEntity>{
+        const user = this.userRepository.findOne({ where: { id:id }})
+       try {
+        if (user) {
+            return user;
+       } 
+       } catch (error) {
+        throw new HttpException(`User doesn't exist`, HttpStatus.NOT_FOUND);
+       }
+    }
+
+    async updateUser(userData: Partial<UserEntity>):Promise<UserEntity>{
+      await this.userRepository.save(userData);
+      return this.userRepository.findOne(userData.id);
     }
     
 }

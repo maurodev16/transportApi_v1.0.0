@@ -40,8 +40,7 @@ export class VehicleEntity extends BaseEntity {
     public updatedAt;
 
 
-    @OneToMany(() => UserEntity, (user: UserEntity) => user.vehicles)
-    @JoinColumn({name:"user_id"})
-    public user: UserEntity[];
+    @ManyToOne(()=> UserEntity, (user:UserEntity )=> user.vehicles)
+    public user: UserEntity;
 
 }

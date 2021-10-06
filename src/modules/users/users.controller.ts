@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, UseGuards, Req, NotFoundException, HttpCode } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards, Req, NotFoundException, HttpCode, Patch, ParseIntPipe } from '@nestjs/common';
 import { UserEntity } from 'src/db/entities/user.entity';
 import { AuthService } from '../auth/auth.service';
 import JwtAuthGuard from '../auth/jwt-auth.guard';
@@ -22,9 +22,18 @@ export class UserController {
     return this.userService.registerUser(registrationUserData);
   }
 
-@UseGuards(JwtAuthGuard)
+
   @Get('users')
   async getAllUsers(): Promise<UserEntity[]> {
     return this.userService.getAllUsers();
   }
+
+  @UseGuards(JwtAuthGuard)
+    @Patch(':id')
+    async updateUser(@Param('id', ParseIntPipe)userId:number, @Body() userData: Partial<UserEntity>):Promise<UserEntity>{
+      userData.id = userId;
+      const updatedUser = await this.userService.updateUser(userData);
+      return updatedUser;
+    }
+
 }
