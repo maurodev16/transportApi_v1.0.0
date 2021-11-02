@@ -1,6 +1,6 @@
 
 import { IsEmail, IsMobilePhone, IsPostalCode, } from "class-validator";
-import { BaseEntity, Column, CreateDateColumn, Double, Entity, JoinColumn, JoinTable, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { BaseEntity, BeforeInsert, Column, CreateDateColumn, Double, Entity, JoinColumn, JoinTable, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { VehicleEntity } from "./vehicle.entity";
 
 
@@ -18,6 +18,14 @@ export class UserEntity extends BaseEntity {
     @IsEmail()
     @Column({ type: 'varchar', length: 150, nullable: true, unique: true })
     public email: string;
+
+    // @BeforeInsert()
+    // emailToLowerCase(){
+    //     this.email= this.email.toLowerCase();
+    // }
+
+    // @Column({type:'enum', enum:UserRole, default:UserRole.USER})
+    // role:UserRole;
 
     @Column({ name: 'password', type: 'varchar', length: 60, nullable: true })
     public password: string;
@@ -76,7 +84,8 @@ export class UserEntity extends BaseEntity {
     public updatedAt;
 
     @OneToMany(() => VehicleEntity, (vehicle: VehicleEntity) => vehicle.user, { cascade: true })
-
+    
+    @JoinColumn()
     public vehicles: VehicleEntity[];
 
 }
